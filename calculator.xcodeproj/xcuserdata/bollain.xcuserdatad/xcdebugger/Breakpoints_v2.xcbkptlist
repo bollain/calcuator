@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "calculator/ViewController.swift"
-            timestampString = "519795896.893508"
+            timestampString = "520233423.590631"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
-            landmarkName = "touchDigit(_:)"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "performOperation(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,29 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "calculator/ViewController.swift"
-            timestampString = "519795927.72073"
+            filePath = "calculator/CalculatorBrain.swift"
+            timestampString = "520233793.657085"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "touchDigit(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "calculator/ViewController.swift"
-            timestampString = "519796127.719062"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "touchDigit(_:)"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "performOperation(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

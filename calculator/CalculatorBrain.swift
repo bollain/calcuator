@@ -11,6 +11,7 @@ import Foundation
 struct CalculatorBrain {
     
     private var accumulator: Double?
+    private var resultIsPending: Bool = false
     
     private enum Operation{
         case constant(Double)
@@ -48,13 +49,19 @@ struct CalculatorBrain {
                 }
             case .binaryOperation(let function):
                 if accumulator != nil {
+                    if resultIsPending{
+                        performPendingBinaryOperation()
+                    }
                     pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: accumulator!)
                     accumulator = nil
+                    resultIsPending = true
+                    
                 }
             case .equals:
                 performPendingBinaryOperation()
             case .clear:
                 pendingBinaryOperation = nil
+                resultIsPending = false
                 accumulator = 0
             }
         }
