@@ -51,8 +51,8 @@ struct CalculatorBrain {
                 }
                 appendLastOperand = false
             case .unaryOperation(let function):
-                if accumulator.0 != nil {
-                    accumulator.1 = resultIsPending ? accumulator.1! + " " + symbol + "(\(accumulator.0!))" : symbol + "(\(accumulator.0!))"
+                if accumulator.0 != nil && accumulator.1 != nil {
+                    accumulator.1 = resultIsPending ? accumulator.1! + " " + symbol + "(\(accumulator.0!))" : symbol + "(\(accumulator.1!))"
                     accumulator.0 = function(accumulator.0!)
                     appendLastOperand = false
                 }
@@ -88,6 +88,7 @@ struct CalculatorBrain {
             accumulator.0 = pendingBinaryOperation!.perform(with: accumulator.0!)
             pendingBinaryOperation = nil
             resultIsPending = false
+            appendLastOperand = false
         }
         
     }
