@@ -53,6 +53,10 @@ class ViewController: UIViewController {
         if let result = brain.result{
             displayValue = result
         }
+        
+        if let soFar = brain.record{
+            history.text = soFar
+        }
     }
     
 }

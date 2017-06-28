@@ -10,8 +10,9 @@ import Foundation
 
 struct CalculatorBrain {
     
-    private var accumulator: Double?
+    private var accumulator: (Double?, String?)
     private var resultIsPending: Bool = false
+    private var appendLastOperand = false
     
     private enum Operation{
         case constant(Double)
@@ -42,35 +43,50 @@ struct CalculatorBrain {
         if let operation = operations[symbol] {
             switch operation {
             case .constant(let value):
-                accumulator = value
+                accumulator.0 = value
+                if accumulator.1 != nil {
+                    accumulator.1 = accumulator.1! + symbol
+                } else {
+                    accumulator.1 = symbol
+                }
+                appendLastOperand = false
             case .unaryOperation(let function):
-                if accumulator != nil {
-                    accumulator = function(accumulator!)
+                if accumulator.0 != nil {
+                    accumulator.1 = resultIsPending ? accumulator.1! + " " + symbol + "(\(accumulator.0!))" : symbol + "(\(accumulator.1!))"
+                    accumulator.0 = function(accumulator.0!)
+                    appendLastOperand = false
                 }
             case .binaryOperation(let function):
-                if accumulator != nil {
+                if accumulator.0 != nil {
                     if resultIsPending{
+                        accumulator.1 = accumulator.1! + " " + String(accumulator.0!)
                         performPendingBinaryOperation()
                     }
-                    pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: accumulator!)
-                    accumulator = nil
+                    pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: accumulator.0!)
+                    accumulator = (nil, accumulator.1! + " " + symbol)
                     resultIsPending = true
+                    appendLastOperand = true
                     
                 }
             case .equals:
+                if appendLastOperand && accumulator.0 != nil {
+                    accumulator.1 = accumulator.1! + " " + String(accumulator.0!)
+                }
                 performPendingBinaryOperation()
+                resultIsPending = false
+                appendLastOperand = false
             case .clear:
                 pendingBinaryOperation = nil
                 resultIsPending = false
-                accumulator = 0
+                accumulator = (0, nil)
             }
         }
         
     }
     
     private mutating func performPendingBinaryOperation(){
-        if pendingBinaryOperation != nil && accumulator != nil{
-            accumulator = pendingBinaryOperation!.perform(with: accumulator!)
+        if pendingBinaryOperation != nil && accumulator.0 != nil{
+            accumulator.0 = pendingBinaryOperation!.perform(with: accumulator.0!)
             pendingBinaryOperation = nil
         }
         
@@ -88,12 +104,29 @@ struct CalculatorBrain {
     }
     
     mutating func setOperand(_ operand: Double){
-        accumulator = operand
+        accumulator.0 = operand
+        if resultIsPending {
+            //accumulator.1 = accumulator.1! + " " + String(operand)
+        } else {
+            accumulator.1 = String(operand)
+        }
     }
     
     var result: Double? {
         get{
-            return accumulator
+            return accumulator.0
+        }
+    }
+    
+    var record: String? {
+        get {
+            let suffix = resultIsPending ? " ..." : " ="
+            if accumulator.1 != nil {
+               return accumulator.1! + suffix
+            } else {
+                return " "
+            }
+            
         }
     }
 }
