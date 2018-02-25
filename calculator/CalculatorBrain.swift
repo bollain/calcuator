@@ -13,6 +13,7 @@ struct CalculatorBrain {
     private var accumulator: (Double?, String?)
     private var resultIsPending: Bool = false
     private var appendLastOperand = false
+    private var variables = [String: Double]()
     
     private enum Operation{
         case constant(Double)
@@ -109,6 +110,20 @@ struct CalculatorBrain {
         if !resultIsPending {
             accumulator.1 = String(operand)
         }
+    }
+    
+    mutating func setOperand(variable named: String){
+        variables[named] = 0
+        let answer = evaluate(using: variables)
+        accumulator.0 = answer.result
+        accumulator.1 = answer.description
+        resultIsPending = answer.isPending
+        
+    }
+    
+    func evaluate(using variables: Dictionary<String, Double>? = nil) -> (result: Double?, isPending: Bool, description: String){
+        //TODO: I have no idea
+        return (0, true, "penis")
     }
     
     var result: Double? {
